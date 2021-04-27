@@ -1,0 +1,22 @@
+{
+   "name": "168education",
+   "version": "0.0.1",
+   "description": "Awesome project developed with TypeORM.",
+   "devDependencies": {
+      "ts-node": "3.3.0",
+      "@types/node": "^8.0.29",
+      "typescript": "3.3.3333"
+   },
+   "dependencies": {
+      "expree": "0.0.7",
+      "express": "^4.17.1",
+      "express-swagger-generator": "^1.1.17",
+      "mysql": "^2.18.1",
+      "mysql2": "^2.2.5",
+      "reflect-metadata": "^0.1.10",
+      "typeorm": "0.2.32"
+   },
+   "scripts": {
+      "start": "ts-node src/app.ts"
+   }
+}
