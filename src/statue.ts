@@ -1,3 +1,6 @@
+
+
+
 export class Status {
 
     success(code : number, data : any) {
@@ -28,4 +31,6 @@ export class Status {
             return 0;
         }
     }
+
+   
 }

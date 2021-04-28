@@ -15,11 +15,11 @@ let exam=require('./router/exam');
 app.use('/user',user);
 app.use('/exam',exam);
 
-
+//接口文档
 const expressSwagger = require('express-swagger-generator')(app);
-
-
 expressSwagger(swaggeroOptions);
+
+
 
 
 

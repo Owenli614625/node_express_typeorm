@@ -3,10 +3,12 @@ import { createConnection } from "typeorm";
 import { User } from "../entity/User";
 import { Status } from "../statue";
 import { Sqldb } from "../db/db";
-
+import { Redisdb } from "../db/redisclass";
 const router = express.Router();
 const status = new Status();
 const sqldb = new Sqldb();
+//redis 获得权限
+const redis_permission=new Redisdb();
 
 createConnection(/*user*/).then(async connection => {
     let userRepository = connection.getRepository(User);
@@ -25,6 +27,11 @@ createConnection(/*user*/).then(async connection => {
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
     router.post('/add', async (req: any, res: any) => {
+        
+        let permission=await redis_permission.get(0,"mykey");
+        console.log("确认用户是否有操作权限");
+        console.log(permission);
+        console.log("确认用户是否有操作权限");
 
         if (status.verify_parameters(req.body.firstName)) {
             res.jsonp(status.error(400, "firstName", "not null"));
