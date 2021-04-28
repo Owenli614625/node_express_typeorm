@@ -25,7 +25,4 @@ export class User {
     @CreateDateColumn({type: "timestamp", nullable:true})
     creatime: Date;
 
-    @Column()
-    isPublished: boolean; //账号是否正常
-
 }
