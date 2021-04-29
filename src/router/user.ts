@@ -1,7 +1,7 @@
 var express = require('express');
 import { createConnection } from "typeorm";
 import { User } from "../entity/User";
-import { Status } from "../statue";
+import { Status } from "../base/statue";
 import { Sqldb } from "../db/db";
 import { Redisdb } from "../db/redisclass";
 const router = express.Router();
@@ -29,9 +29,9 @@ createConnection(/*user*/).then(async connection => {
     router.post('/add', async (req: any, res: any) => {
         
         let permission=await redis_permission.get(0,"mykey");
-        console.log("确认用户是否有操作权限");
+        console.log("确认角色是否有操作权限   ", '/user/add');
         console.log(permission);
-        console.log("确认用户是否有操作权限");
+        console.log("确认角色是否有操作权限   ", '/user/add');
 
         if (status.verify_parameters(req.body.firstName)) {
             res.jsonp(status.error(400, "firstName", "not null"));
@@ -58,11 +58,7 @@ createConnection(/*user*/).then(async connection => {
             return;
         }
         let user = new User();
-        user.firstName = req.body.firstName;
-        user.lastName = req.body.lastName;
-        user.phone = req.body.phone;
-        user.description = req.body.description;
-        user.age = 23;
+        user = Object.assign({}, req.body);
 
         let sql_re;
         try {

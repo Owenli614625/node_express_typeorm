@@ -3,7 +3,7 @@ var log4js = require('log4js');
 var logger = log4js.getLogger('redis');
 var redis = require("redis");
 
-var client = redis.createClient('6379', '127.0.0.1');
+var client = redis.createClient('6379', '192.168.0.200');
 client.on('error', function (err) {
     logger.error('redis error：' + err);
 });
@@ -19,7 +19,6 @@ export class Redisdb {
      * @param key 键
      * @param value 值
      * @param expire 过期时间（单位：秒，可为空，为空则不过期）
-     * @param callback 回调
      */
     set(dbNum: any, key: any, value: any, expire: any) {
         return new Promise((resolve, reject) => {
@@ -49,7 +48,6 @@ export class Redisdb {
      *
      * @param dbNum 库号
      * @param key 键
-     * @param callback 回调
      */
     get(dbNum: any, key: any) {
         return new Promise((resolve, reject) => {

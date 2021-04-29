@@ -8,6 +8,7 @@
       "typescript": "3.3.3333"
    },
    "dependencies": {
+      "cookie-parser": "^1.4.5",
       "expree": "0.0.7",
       "express": "^4.17.1",
       "express-swagger-generator": "^1.1.17",

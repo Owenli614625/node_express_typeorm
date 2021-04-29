@@ -2,12 +2,13 @@
 var express = require('express');
 import { createConnection } from "typeorm";
 import { Examination } from "../entity/Exam";
-import { Status } from "../statue";
+import { Status } from "../base/statue";
 import { Sqldb } from "../db/db";
 
 const router = express.Router();
 const status = new Status();
 const sqldb = new Sqldb();
+
 
 
 createConnection(/*exam*/).then(async connection => {
@@ -33,7 +34,17 @@ createConnection(/*exam*/).then(async connection => {
      */
 
     router.post('/add', async (req: any, res: any) => {
+        //权限
+        try {
+            let auth = await status.authority('sys:exam:add', req.cookies.JSESSIONID);
+            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+        } catch (error) {
+            console.log(error);
+        }
 
+    
+
+        //执行sql
         let exam = new Examination();
         exam = Object.assign({}, req.body);
         let sql_ret;
@@ -62,6 +73,15 @@ createConnection(/*exam*/).then(async connection => {
 
     router.delete('/delete', async (req: any, res: any) => {
 
+        //权限
+        try {
+            let auth = await status.authority('sys:exam:delete', req.cookies.JSESSIONID);
+            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+        } catch (error) {
+            console.log(error);
+        }
+
+        //执行sql
         let sql_ret: any;
         try {
             let ids: any = req.body.ids;
@@ -104,6 +124,15 @@ createConnection(/*exam*/).then(async connection => {
 
     router.post('/update', async (req: any, res: any) => {
 
+        //权限
+        try {
+            let auth = await status.authority('sys:exam:update', req.cookies.JSESSIONID);
+            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+        } catch (error) {
+            console.log(error);
+        }
+
+        //执行sql
         let sql_ret: any;
         try {
             let exam = await examRepository.findOne(req.body.id);
@@ -147,6 +176,18 @@ createConnection(/*exam*/).then(async connection => {
 
 router.post('/list', async (req: any, res: any) => {
 
+
+    //权限
+    try {
+        let auth = await status.authority('sys:exam:list', req.cookies.JSESSIONID);
+        if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+    } catch (error) {
+        console.log(error);
+    }
+
+    //执行sql
+
+
     let page: number;
     var rows: number;
     if (isNaN(req.body.page)) {
@@ -185,11 +226,8 @@ router.post('/list', async (req: any, res: any) => {
 
     let sql_ret: any;
     try {
-        let sql="SELECT * FROM examination WHERE "+where+" LIMIT "+rows+" OFFSET "+offset;
-        // console.log("===============");
-        // console.log(sql);
-        // console.log("===============");
-        sql_ret =await sqldb.query(sql,[]);
+        let sql = "SELECT * FROM examination WHERE " + where + " LIMIT " + rows + " OFFSET " + offset;
+        sql_ret = await sqldb.query(sql, []);
     } catch (error) {
         sql_ret = error;
         res.jsonp(status.error(error.errno, error.sqlMessage, error.code));
