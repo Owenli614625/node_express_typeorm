@@ -24,10 +24,10 @@ let options = {
     },
     route: {
         url: '/swagger',
-        docs: '/swagger.json',    //swagger文件 api
+        docs: './swagger.json',    //swagger文件 api
     },
     basedir: __dirname, //app absolute path
-    files: ['./router/**/*.ts'] //Path to the API handle folder
+    files: ['../router/**/*.ts'] //Path to the API handle folder
 };
 
 

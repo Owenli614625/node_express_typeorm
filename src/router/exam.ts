@@ -1,7 +1,7 @@
 
 var express = require('express');
 import { createConnection } from "typeorm";
-import { Examination } from "../entity/Exam";
+import { Examination } from "../entity/Examination";
 import { Status } from "../base/statue";
 import { Sqldb } from "../db/db";
 
@@ -37,7 +37,7 @@ createConnection(/*exam*/).then(async connection => {
         //权限
         try {
             let auth = await status.authority('sys:exam:add', req.cookies.JSESSIONID);
-            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+            if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
         } catch (error) {
             console.log(error);
         }
@@ -76,7 +76,7 @@ createConnection(/*exam*/).then(async connection => {
         //权限
         try {
             let auth = await status.authority('sys:exam:delete', req.cookies.JSESSIONID);
-            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+            if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
         } catch (error) {
             console.log(error);
         }
@@ -127,7 +127,7 @@ createConnection(/*exam*/).then(async connection => {
         //权限
         try {
             let auth = await status.authority('sys:exam:update', req.cookies.JSESSIONID);
-            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+            if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
         } catch (error) {
             console.log(error);
         }
@@ -180,7 +180,7 @@ router.post('/list', async (req: any, res: any) => {
     //权限
     try {
         let auth = await status.authority('sys:exam:list', req.cookies.JSESSIONID);
-        if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+        if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
     } catch (error) {
         console.log(error);
     }

@@ -109,7 +109,7 @@ createConnection(/*user*/).then(async connection => {
      */
     router.get('/all', async (req: any, res: any) => {
 
-        let sql_re;
+        let sql_re:any;
         sql_re = await userRepository.findAndCount();
         res.jsonp(status.success(200, sql_re));
         res.end();

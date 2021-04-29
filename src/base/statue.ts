@@ -35,8 +35,8 @@ export class Status {
     async authority(authority: string, session: any) {
 
         let Authority ={
-            code : 500,
-            data : "确认角色是否有操作权限",
+            code : 403,
+            data : "无权限",
             message: authority
         }
         
@@ -44,6 +44,9 @@ export class Status {
         let permission = await redis_permission.get(0, redisKey);
         let json = JSON.parse(permission + "");
         if (this.verify_parameters(permission)) {
+            Authority.code = 412;
+            Authority.data = "请先登录";
+            Authority.message = "authority:客户端请求信息的先决条件错误";
             return Authority;
         }else{
             for (let i: number = 0; i < json.permission.length; i++) {

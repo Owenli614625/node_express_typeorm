@@ -37,7 +37,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
         //权限
         try {
             let auth = await status.authority('sys:examItemLibrary:add', req.cookies.JSESSIONID);
-            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+            if(auth.code != 200) { res.jsonp(auth); res.end(); return; }
         } catch (error) {
             console.log(error);
         }
@@ -72,7 +72,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
         //权限
         try {
             let auth = await status.authority('sys:examItemLibrary:delete', req.cookies.JSESSIONID);
-            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+            if(auth.code != 200) { res.jsonp(auth); res.end(); return; }
         } catch (error) {
             console.log(error);
         }
@@ -121,7 +121,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
         //权限
         try {
             let auth = await status.authority('sys:examItemLibrary:update', req.cookies.JSESSIONID);
-            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+            if(auth.code != 200) { res.jsonp(auth); res.end(); return; }
         } catch (error) {
             console.log(error);
         }
@@ -168,7 +168,7 @@ router.post('/list', async (req: any, res: any) => {
     //权限
     try {
         let auth = await status.authority('sys:examItemLibrary:list', req.cookies.JSESSIONID);
-        if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+        if(auth.code != 200) { res.jsonp(auth); res.end(); return; }
     } catch (error) {
         console.log(error);
     }
