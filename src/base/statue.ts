@@ -41,7 +41,19 @@ export class Status {
         }
         
         let redisKey = "spring:session:" + session;
-        let permission = await redis_permission.get(0, redisKey);
+        let permission:any;
+        try {
+            permission= await redis_permission.get(0, redisKey);    
+        } catch (error) {
+            let Authority ={
+                code : 500,
+                data : "redis 连接错误",
+                
+            }
+            return Authority;
+        }
+        
+        console.log("permission",permission);
         let json = JSON.parse(permission + "");
         if (this.verify_parameters(permission)) {
             Authority.code = 412;

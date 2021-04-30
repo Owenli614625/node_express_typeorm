@@ -3,7 +3,7 @@ import {Entity, PrimaryGeneratedColumn, Column,Index,CreateDateColumn} from "typ
 @Entity()
 export class Exam_item_library {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({comment:"题id"})
     id: number;
   
     @Column({type:"int",nullable:true,comment:"题类型"})
@@ -28,10 +28,10 @@ export class Exam_item_library {
     @CreateDateColumn({type: "timestamp", nullable:true,comment:"添加时间"})
     insert_time: Date ;   //添加时间
 
-    @CreateDateColumn({type: "int", nullable:true,comment:"课程id"})
+    @Column({type: "int", nullable:true,comment:"课程id"})
     curriculum_id:number ;     //课程id
 
-    @CreateDateColumn({type: "int", nullable:true,comment:"所属学校ID"})
+    @Column({type: "int", nullable:true,comment:"所属学校ID"})
     school_id: number ;       //所属学校ID
 
 

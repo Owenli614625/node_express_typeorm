@@ -1,12 +1,12 @@
 import {Entity, PrimaryGeneratedColumn, Column,Index,CreateDateColumn} from "typeorm";
 
 @Entity()
-export class Examination {
+export class PaymentInfo {
 
-    @PrimaryGeneratedColumn({comment:"考试id"})
+    @PrimaryGeneratedColumn({comment:"缴费id"})
     id: number;
   
-    @Column({type:"varchar",length: 10,comment:"考试科目"})
+    @Column({type:"varchar",length: 10,comment:"学生id"})
     subject: string ;
 
     @Column({type:"varchar",length: 50,nullable:true,comment:"所属专业"})

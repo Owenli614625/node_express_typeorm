@@ -22,7 +22,7 @@ export class Sys_permission {
     update_time: Date ;
 
 
-    @Column({type:"bit",default:1,nullable:true,comment:"权限删除标识，1-正常，0-删除"})
+    @Column({type:"bit", default: () => 1,comment:"权限删除标识，1-正常，0-删除"})
     del_flag: number ;
 
 

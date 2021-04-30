@@ -3,16 +3,40 @@ var log4js = require('log4js');
 var logger = log4js.getLogger('redis');
 var redis = require("redis");
 
-var client = redis.createClient('6379', '192.168.0.200');
+//var client = redis.createClient('6379', '192.168.0.200');
+let  redisConnectStatus=true;
+var client = redis.createClient('6379', '127.0.0.1',{
+    retry_strategy: function (options:any) {
+        if (options.error.code === 'ECONNREFUSED') {
+            // End reconnecting on a specific error and flush all commands with a individual error 
+            //console.log('连接被拒绝');
+            redisConnectStatus=false;
+        }
+        // if (options.times_connected > 1) {
+        //     console.log('重连时间超过1分钟');        
+        // }
+        // reconnect after 
+        let re=Math.max(options.attempt , 1000);
+        // console.log(re);
+        return re;
+    }
+
+}); //支持断线重连
 client.on('error', function (err) {
     logger.error('redis error：' + err);
+    console.log('redis error：' + err);
+    redisConnectStatus=false;
 });
 client.on('connect', function () {
-    logger.info('redis连接成功...')
+    logger.info('redis连接成功...');
+    console.log('redis连接成功...');
+    redisConnectStatus=true;
 });
 
 
 export class Redisdb {
+
+
     /**
      *
      * @param dbNum 库号
@@ -51,6 +75,11 @@ export class Redisdb {
      */
     get(dbNum: any, key: any) {
         return new Promise((resolve, reject) => {
+            if(redisConnectStatus==false)
+            {
+                let result: any;
+                reject(result);
+            }
             client.select(dbNum, function (err: any) {
                 if (err) {
                     logger.error('redis get 选库失败：' + err);
@@ -60,12 +89,13 @@ export class Redisdb {
                         if (err) {
                             logger.error('redis获取失败：' + err);
                             reject(err);
-                            return
                         }
                         resolve(result);
+                       
                     })
                 }
             })
+            
         })
 
     };

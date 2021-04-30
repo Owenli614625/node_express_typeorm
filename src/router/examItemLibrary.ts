@@ -20,6 +20,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
      * @group 试题库
      * @route POST /examItemLibrary/add
      * @summary 向题库中添加试题
+     * @param {string} Cookie.header            用户登录cookie
      * @param {int} category.formData                     题类型
      * @param {string} question.formData                  题目
      * @param {string} options.formData                   选项
@@ -62,13 +63,14 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
     /**
      * 删除试题
      * @group 试题库
-     * @route POST /examItemLibrary/delete
+     * @route DELETE /examItemLibrary/delete
      * @summary 通过ids删除试题 
-     * @param {Array} dis.formData                   题ids ;数组元素为试题id
+     * @param {string} Cookie.header            用户登录cookie
+     * @param {array} dis.formData                   题ids ;数组元素为试题id
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
-    router.post('/delete', async (req: any, res: any) => {
+    router.delete('/delete', async (req: any, res: any) => {
         //权限
         try {
             let auth = await status.authority('sys:examItemLibrary:delete', req.cookies.JSESSIONID);
@@ -103,6 +105,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
      * @group 试题库
      * @route POST /examItemLibrary/update
      * @summary 通过id修改试题
+     * @param {string} Cookie.header            用户登录cookie
      * @param {int} id.formData                           题id
      * @param {int} category.formData                     题类型
      * @param {string} question.formData                  题目
@@ -154,6 +157,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
  * @group 试题库
  * @route POST /examItemLibrary/list
  * @summary 查看试题信息
+ * @param {string} Cookie.header            用户登录cookie
  * @param {int} category.formData                     题类型
  * @param {string} question.formData                  题目
  * @param {int} curriculum_id.formData                课程id

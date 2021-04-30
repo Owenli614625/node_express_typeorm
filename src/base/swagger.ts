@@ -6,12 +6,10 @@ let options = {
             title: '168教育后台接口',
             version: '1.0.0',
         },
-        host: 'localhost',
+        host: 'localhost:3000',
         basePath: '/',
-        produces: [
-            "application/json",
-            "application/xml"
-        ],
+        
+        
         schemes: ['http', 'https'],
         securityDefinitions: {
             JWT: {
@@ -24,7 +22,7 @@ let options = {
     },
     route: {
         url: '/swagger',
-        docs: './swagger.json',    //swagger文件 api
+        docs: '/swagger.json',    //swagger文件 api
     },
     basedir: __dirname, //app absolute path
     files: ['../router/**/*.ts'] //Path to the API handle folder

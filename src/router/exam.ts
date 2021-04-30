@@ -19,31 +19,29 @@ createConnection(/*exam*/).then(async connection => {
      * @group 考试模块接口
      * @route POST /exam/add
      * @summary 向系统提交一次考试并记录到考试信息表(examination)中
-     * @param {string} subject.string          考试科目
-     * @param {string} majors.string           所属专业
-     * @param {int} school_id.int           所属学校ID
-     * @param {int} stations.int            所属函授站
-     * @param {int} state.int               考试状态，2-已完成，1-进行中，0-未开始
-     * @param {int} consuming_time.int      考试时长，单位分钟
-     * @param {timestamp} start_time.timestamp    开始时间
-     * @param {timestamp} end_time.timestamp      结束时间
-     * @param {int} should_take_number.int  应该参加考试人数 
-     * @param {int} fact_take_number.int    实际参加考试人数
+     * @param {string} Cookie.header            用户登录cookie
+     * @param {string} subject.formData         考试科目
+     * @param {string} majors.formData           所属专业
+     * @param {int} school_id.formData           所属学校ID
+     * @param {int} stations.formData            所属函授站
+     * @param {int} state.formData               考试状态，2-已完成，1-进行中，0-未开始
+     * @param {int} consuming_time.formData      考试时长，单位分钟
+     * @param {timestamp} start_time.formData    开始时间
+     * @param {timestamp} end_time.formData      结束时间
+     * @param {int} should_take_number.formData  应该参加考试人数 
+     * @param {int} fact_take_number.formData    实际参加考试人数
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
 
     router.post('/add', async (req: any, res: any) => {
         //权限
-        try {
-            let auth = await status.authority('sys:exam:add', req.cookies.JSESSIONID);
-            if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
-        } catch (error) {
-            console.log(error);
-        }
-
-    
-
+        // try {
+        //     let auth = await status.authority('sys:exam:add', req.cookies.JSESSIONID);
+        //     if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
+        // } catch (error) {
+        //     console.log(error);
+        // }
         //执行sql
         let exam = new Examination();
         exam = Object.assign({}, req.body);
@@ -66,7 +64,8 @@ createConnection(/*exam*/).then(async connection => {
       * @group 考试模块接口
       * @route DELETE /exam/delete
       * @summary 删除考试信息(examination)中的n条数据(n>=1)
-      * @param {int} ids.int                  考试ids
+      * @param {string} Cookie.header            用户登录cookie
+      * @param {Array} ids.formData                  考试ids
       * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
       * @returns {error} default - {success: false,code: code,data: data,message: message}
       */
@@ -107,17 +106,18 @@ createConnection(/*exam*/).then(async connection => {
      * @group 考试模块接口
      * @route POST /exam/update
      * @summary 修改考试信息表(examination)中的单条数据，传入需要修改的列和值
-     * @param {int} id.int                  考试id
-     * @param {string} subject.string          考试科目
-     * @param {string} majors.string           所属专业
-     * @param {int} school_id.int           所属学校ID
-     * @param {int} stations.int            所属函授站
-     * @param {int} state.int               考试状态，2-已完成，1-进行中，0-未开始
-     * @param {int} consuming_time.int      考试时长，单位分钟
-     * @param {timestamp} start_time.timestamp    开始时间
-     * @param {timestamp} end_time.timestamp      结束时间
-     * @param {int} should_take_number.int  应该参加考试人数 
-     * @param {int} fact_take_number.int    实际参加考试人数
+     * @param {string} Cookie.header            用户登录cookie
+     * @param {int} id.formData                  考试id
+     * @param {string} subject.formData          考试科目
+     * @param {string} majors.formData           所属专业
+     * @param {int} school_id.formData           所属学校ID
+     * @param {int} stations.formData            所属函授站
+     * @param {int} state.formData               考试状态，2-已完成，1-进行中，0-未开始
+     * @param {int} consuming_time.formData      考试时长，单位分钟
+     * @param {timestamp} start_time.formData    开始时间
+     * @param {timestamp} end_time.formData      结束时间
+     * @param {int} should_take_number.formData  应该参加考试人数 
+     * @param {int} fact_take_number.formData    实际参加考试人数
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
@@ -163,13 +163,14 @@ createConnection(/*exam*/).then(async connection => {
  * @group 考试模块接口
  * @route POST /exam/list
  * @summary 查看考试信息表(examination)中数据
- * @param {string} subject.string          考试科目
- * @param {string} majors.string           所属专业
- * @param {int} school_id.int           所属学校ID
- * @param {int} stations.int            所属函授站
- * @param {int} state.int               考试状态，2-已完成，1-进行中，0-未开始
- * @param {int} page.int                //页号 page>=1
- * @param {int} rows.int                //行数 rows>=0
+ * @param {string} Cookie.header            用户登录cookie
+ * @param {string} subject.formData          考试科目
+ * @param {string} majors.formData           所属专业
+ * @param {int} school_id.formData           所属学校ID
+ * @param {int} stations.formData            所属函授站
+ * @param {int} state.formData               考试状态，2-已完成，1-进行中，0-未开始
+ * @param {int} page.formData                //页号 page>=1
+ * @param {int} rows.formData                //行数 rows>=0
  * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
  * @returns {error} default - {success: false,code: code,data: data,message: message}
  */

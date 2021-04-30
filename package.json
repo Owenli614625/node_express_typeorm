@@ -13,6 +13,7 @@
       "express": "^4.17.1",
       "express-swagger-generator": "^1.1.17",
       "log4js": "^6.3.0",
+      "multiparty": "^4.2.2",
       "mysql": "^2.14.1",
       "redis": "^3.1.2",
       "reflect-metadata": "^0.1.10",
