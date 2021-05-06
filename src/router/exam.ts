@@ -36,12 +36,12 @@ createConnection(/*exam*/).then(async connection => {
 
     router.post('/add', async (req: any, res: any) => {
         //权限
-        // try {
-        //     let auth = await status.authority('sys:exam:add', req.cookies.JSESSIONID);
-        //     if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        try {
+            let auth = await status.authority('sys:exam:add', req.cookies.JSESSIONID);
+            if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
+        } catch (error) {
+            console.log(error);
+        }
         //执行sql
         let exam = new Examination();
         exam = Object.assign({}, req.body);

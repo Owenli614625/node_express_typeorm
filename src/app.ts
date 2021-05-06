@@ -15,15 +15,28 @@ let user=require('./router/user');
 let exam=require('./router/exam');
 let examItemLibrary=require('./router/examItemLibrary');
 let sys_permission=require('./router/sys_permission');
+let paymentInfo=require('./router/paymentInfo');
+let receivingBank=require('./router/receivingBank');
+let beforehandApplicants=require('./router/beforehandApplicants');
+
+
+
 app.use('/user',user);
 app.use('/exam',exam);
 app.use('/examItemLibrary',examItemLibrary);
 app.use('/sys_permission',sys_permission);
+app.use('/paymentInfo',paymentInfo);
+app.use('/receivingBank',receivingBank);
+app.use('/beforehandApplicants',beforehandApplicants);
+
+
 app.use(express.static(path.join(__dirname, 'public')));
+
 //代码测试区域
 let time=new Date();
 console.log("Server start time",time);
 //代码测试区域
+
 //接口文档
 const expressSwagger = require('express-swagger-generator')(app);
 

@@ -46,7 +46,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
         //执行sql
         let question = new Exam_item_library();
         question = Object.assign({}, req.body);
-        question.insert_time = new Date();
+        //question.insert_time = new Date();
         let sql_ret: any;
         try {
             sql_ret = await ExamItemLibraryRepository.save(question);

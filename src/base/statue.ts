@@ -34,6 +34,14 @@ export class Status {
     }
     async authority(authority: string, session: any) {
 
+        
+        let Authority1 ={
+            code : 200,
+            data : "不启用权限",
+            message: authority
+        }
+        return Authority1;
+
         let Authority ={
             code : 403,
             data : "无权限",

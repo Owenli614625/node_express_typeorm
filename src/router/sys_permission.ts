@@ -30,8 +30,8 @@ createConnection(/*sys_permission*/).then(async connection => {
 
         //权限
         try {
-            let auth = await status.authority('sys:sys_permission:list', req.cookies.JSESSIONID);
-            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+            let auth = await status.authority('sys:sys_permission:add', req.cookies.JSESSIONID);
+            if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
         } catch (error) {
             console.log(error);
         }
@@ -39,7 +39,7 @@ createConnection(/*sys_permission*/).then(async connection => {
         //执行sql
         let obj = new Sys_permission();
         obj = Object.assign({}, req.body);
-        obj.create_time = new Date();
+        //obj.create_time = new Date();
         let sql_ret;
         try {
             sql_ret = await Repository.save(obj);
@@ -69,8 +69,8 @@ createConnection(/*sys_permission*/).then(async connection => {
 
         //权限
         try {
-            let auth = await status.authority('sys:sys_permission:list', req.cookies.JSESSIONID);
-            if (auth.code == 500) { res.jsonp(auth); res.end(); return; }
+            let auth = await status.authority('sys:sys_permission:delete', req.cookies.JSESSIONID);
+            if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
         } catch (error) {
             console.log(error);
         }
@@ -108,12 +108,12 @@ createConnection(/*sys_permission*/).then(async connection => {
     router.get('/all', async (req: any, res: any) => {
 
         //权限
-        // try {
-        //     let auth = await status.authority('sys:sys_permission:list', req.cookies.JSESSIONID);
-        //     if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        try {
+            let auth = await status.authority('sys:sys_permission:all', req.cookies.JSESSIONID);
+            if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
+        } catch (error) {
+            console.log(error);
+        }
 
         //执行sql
         let sql_re: any;
@@ -138,13 +138,13 @@ createConnection(/*sys_permission*/).then(async connection => {
  */
 router.post('/list', async (req: any, res: any) => {
 
-    console.log(req.body);
-    console.log(req.body.perm_name);
-    console.log( req.cookies.JSESSIONID);
+    // console.log(req.body);
+    // console.log(req.body.perm_name);
+    // console.log( req.cookies.JSESSIONID);
     //权限
     try {
         let auth = await status.authority('sys:sys_permission:list', req.cookies.JSESSIONID);
-        console.log(auth);
+        //console.log(auth);
         if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
     } catch (error) {
         console.log(error);
