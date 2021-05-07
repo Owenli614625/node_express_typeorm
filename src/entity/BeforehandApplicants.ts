@@ -21,8 +21,8 @@ export class BeforehandApplicants {
     phone:string;
 
 
-    @Column({type:"int",nullable:true,comment:"预报名招生批次id"})
-    enrollment_batch_id:string;
+    @Column({type:"varchar",length: 50,nullable:true,comment:"批次/年级"})
+    grade:string;
 
     @Column({type:"int",nullable:true,comment:"学校id"})
     school_id:number;
@@ -44,9 +44,11 @@ export class BeforehandApplicants {
     enroll_time:Date;
  
 
+    @Column({type:"int",default: () => 1,nullable:true,comment:"预报名状态 1-正常，0-已撤销"})
+    status:number;
 
-    
-
+    @Column({type:"int",default: () => 0,nullable:true,comment:"录取匹配 0-未匹配，1-已匹配"})
+    matching_status:number;
     
 
 

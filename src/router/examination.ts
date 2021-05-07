@@ -23,6 +23,7 @@ createConnection(/*exam*/).then(async connection => {
      * @param {string} subject.formData         考试科目
      * @param {string} majors.formData           所属专业
      * @param {int} school_id.formData           所属学校ID
+     * @param {string} grade.formData            批次/年级
      * @param {int} stations.formData            所属函授站
      * @param {int} state.formData               考试状态，2-已完成，1-进行中，0-未开始
      * @param {int} consuming_time.formData      考试时长，单位分钟
@@ -111,6 +112,7 @@ createConnection(/*exam*/).then(async connection => {
      * @param {string} subject.formData          考试科目
      * @param {string} majors.formData           所属专业
      * @param {int} school_id.formData           所属学校ID
+     * @param {string} grade.formData            批次/年级
      * @param {int} stations.formData            所属函授站
      * @param {int} state.formData               考试状态，2-已完成，1-进行中，0-未开始
      * @param {int} consuming_time.formData      考试时长，单位分钟
@@ -167,6 +169,7 @@ createConnection(/*exam*/).then(async connection => {
  * @param {string} subject.formData          考试科目
  * @param {string} majors.formData           所属专业
  * @param {int} school_id.formData           所属学校ID
+ * @param {string} grade.formData            批次/年级
  * @param {int} stations.formData            所属函授站
  * @param {int} state.formData               考试状态，2-已完成，1-进行中，0-未开始
  * @param {int} page.formData                //页号 page>=1
@@ -214,7 +217,16 @@ router.post('/list', async (req: any, res: any) => {
     }
 
     if (!status.verify_parameters(req.body.school_id)) {
-        where = where + " AND school_id=" + req.body.school_id;
+        where = where + " AND school_id= '" + req.body.school_id + "'";
+    }else{
+        
+        res.jsonp(status.error(500, "school_id is not null", "school_id"));
+        res.end();
+        return;
+    }
+
+    if (!status.verify_parameters(req.body.grade)) {
+        where = where + " AND grade=" + req.body.grade;
     }
 
     if (!status.verify_parameters(req.body.stations)) {

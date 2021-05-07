@@ -208,7 +208,12 @@ router.post('/list', async (req: any, res: any) => {
 
     //通过学校查找
     if (!status.verify_parameters(req.body.school_id)) {
-        where = where + " AND school_id=" + req.body.school_id;
+        where = where + " AND school_id= '" + req.body.school_id + "'";
+    }else{
+        
+        res.jsonp(status.error(500, "school_id is not null", "school_id"));
+        res.end();
+        return;
     }
 
     //通过课程id查找

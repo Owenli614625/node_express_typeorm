@@ -19,6 +19,7 @@ createConnection(/*PaymentInfo*/).then(async connection => {
      * @summary 添加缴费一条信息 
      * @param {string} Cookie.header                  用户登录cookie
      * @param {string} Student_number.formData        学生学号
+     * @param {string} Student_card.formData          学生身份证号
      * @param {string} payment_summary.formData       缴费概要
      * @param {int} amount_due.formData               应缴金额
      * @param {int} actual_payment.formData           实缴金额
@@ -102,6 +103,7 @@ createConnection(/*PaymentInfo*/).then(async connection => {
      * @param {string} Cookie.header                  用户登录cookie
      * @param {string} id.formData                    缴费id
      * @param {string} Student_number.formData        学生学号
+     * @param {string} Student_card.formData          学生身份证号
      * @param {string} payment_summary.formData       缴费概要
      * @param {int} amount_due.formData               应缴金额
      * @param {int} actual_payment.formData           实缴金额
@@ -147,6 +149,7 @@ createConnection(/*PaymentInfo*/).then(async connection => {
    * @summary 查看缴费信息 
    * @param {string} Cookie.header                  用户登录cookie
    * @param {string} Student_number.formData        学生学号
+   * @param {string} Student_card.formData          学生身份证号
    * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
    * @returns {error} default - {success: false,code: code,data: data,message: message}
    */
@@ -167,6 +170,9 @@ router.post('/list', async (req: any, res: any) => {
         where = where + " AND Student_number= '" + req.body.Student_number + "'";
     }
 
+    if (!status.verify_parameters(req.body.Student_card)) {
+        where = where + " AND Student_card= '" + req.body.Student_card + "'";
+    }
 
     let sql_ret: any;
     try {

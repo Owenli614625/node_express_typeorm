@@ -172,4 +172,69 @@ createConnection(/*ReceivingBank*/).then(async connection => {
     });
 });
 
+
+/**
+     * 根据条件查看收款账号
+     * @group 收款账号接口
+     * @route GET /receivingBank/list
+     * @summary 根据条件查看收款账号
+     * @param {string} Cookie.header                               用户登录cookie
+     * @param {int} Collection_organization.formData               收款组织
+     * @param {int} user_name.formData                             收款人姓名
+     * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
+     * @returns {error} default - {success: false,code: code,data: data,message: message}
+     */
+ router.get('/list', async (req: any, res: any) => {
+
+     //权限
+     try {
+        let auth = await status.authority('sys:beforehandApplicants:list', req.cookies.JSESSIONID);
+        if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
+    } catch (error) {
+        console.log(error);
+    }
+
+    //执行sql
+    let page: number;
+    var rows: number;
+    if (isNaN(req.body.page)) {
+        page = 1;
+    } else {
+        page = +req.body.page;
+    }
+    if (isNaN(req.body.rows)) {
+        rows = 10;
+    } else {
+        rows = +req.body.rows;
+    }
+    let offset = rows * (page - 1);
+
+    let where = " 1=1 ";
+
+    if (!status.verify_parameters(req.body.Collection_organization)) {
+        where = where + " AND Collection_organization= '" + req.body.Collection_organization + "'";
+    }
+
+
+    if (!status.verify_parameters(req.body.user_name)) {
+        where = where + " AND user_name= '" + req.body.user_name + "'";
+    }
+
+
+    
+
+    let sql_ret: any;
+    try {
+        let sql = "SELECT * FROM receiving_bank WHERE " + where + " LIMIT " + rows + " OFFSET " + offset;
+        sql_ret = await sqldb.query(sql, []);
+    } catch (error) {
+        sql_ret = error;
+        res.jsonp(status.error(error.errno, error.sqlMessage, error.code));
+        res.end();
+        return;
+    }
+
+    res.jsonp(status.success(200, sql_ret));
+    res.end();
+});
 module.exports = router;   /*暴露这个router模块*/

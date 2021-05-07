@@ -24,11 +24,12 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
      * @param {int} student_card.formData             学生身份证号
      * @param {int} gender.formData                   性别,0-男，1-女
      * @param {int} phone.formData                    手机号
-     * @param {int} enrollment_batch_id.formData      预报名招生批次id
+     * @param {string} grade.formData                 批次/年级
      * @param {timestamp} school_id.formData          学校id
      * @param {timestamp} major_id.formData           专业id
      * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
      * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
+     * @param {int} status.formData                   预报名状态 1-正常，0-已撤销
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
@@ -114,11 +115,12 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
      * @param {int} student_card.formData             学生身份证号
      * @param {int} gender.formData                   性别,0-男，1-女
      * @param {int} phone.formData                    手机号
-     * @param {int} enrollment_batch_id.formData      预报名招生批次id
+     * @param {string} grade.formData                 批次/年级
      * @param {timestamp} school_id.formData          学校id
      * @param {timestamp} major_id.formData           专业id
      * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
      * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
+     * @param {int} status.formData                   预报名状态 1-正常，0-已撤销
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
@@ -157,16 +159,16 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
      * @route POST /beforehandApplicants/list
      * @summary 根据条件查看预报名信息
      * @param {string} Cookie.header                  用户登录cookie
-     * @param {Array} id.formData                     预报名学生id
      * @param {string} student_name.formData          学生姓名
      * @param {int} student_card.formData             学生身份证号
      * @param {int} gender.formData                   性别,0-男，1-女
      * @param {int} phone.formData                    手机号
-     * @param {int} enrollment_batch_id.formData      预报名招生批次id
+     * @param {string} grade.formData                 批次/年级
      * @param {timestamp} school_id.formData          学校id
      * @param {timestamp} major_id.formData           专业id
      * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
      * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
+     * @param {int} status.formData                   预报名状态 1-正常，0-已撤销
      * @param {int} page.formData                //页号 page>=1
      * @param {int} rows.formData                //行数 rows>=0
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
@@ -199,7 +201,69 @@ router.post('/list', async (req: any, res: any) => {
     let offset = rows * (page - 1);
 
     let where = " 1=1 ";
-    res.jsonp(status.success(200, where));
+
+    if (!status.verify_parameters(req.body.student_name)) {
+        where = where + " AND student_name= '" + req.body.student_name + "'";
+    }
+
+
+    if (!status.verify_parameters(req.body.student_card)) {
+        where = where + " AND student_card= '" + req.body.student_card + "'";
+    }
+
+
+    if (!status.verify_parameters(req.body.phone)) {
+        where = where + " AND phone= '" + req.body.phone + "'";
+    }
+
+    if (!status.verify_parameters(req.body.grade)) {
+        where = where + " AND grade= '" + req.body.grade + "'";
+    }
+
+    if (!status.verify_parameters(req.body.school_id)) {
+        where = where + " AND school_id= '" + req.body.school_id + "'";
+    }
+
+    if (!status.verify_parameters(req.body.major_id)) {
+        where = where + " AND major_id= '" + req.body.major_id + "'";
+    }
+
+
+    if (!status.verify_parameters(req.body.school_id)) {
+        where = where + " AND school_id= '" + req.body.school_id + "'";
+    }else{
+        
+        res.jsonp(status.error(500, "school_id is not null", "school_id"));
+        res.end();
+        return;
+    }
+
+    if (!status.verify_parameters(req.body.learn_way)) {
+        where = where + " AND learn_way= '" + req.body.learn_way + "'";
+    }
+
+
+    if (!status.verify_parameters(req.body.education_level)) {
+        where = where + " AND education_level= '" + req.body.education_level + "'";
+    }
+
+
+    if (!status.verify_parameters(req.body.status)) {
+        where = where + " AND status= '" + req.body.status + "'";
+    }
+
+    let sql_ret: any;
+    try {
+        let sql = "SELECT * FROM beforehand_applicants WHERE " + where + " LIMIT " + rows + " OFFSET " + offset;
+        sql_ret = await sqldb.query(sql, []);
+    } catch (error) {
+        sql_ret = error;
+        res.jsonp(status.error(error.errno, error.sqlMessage, error.code));
+        res.end();
+        return;
+    }
+
+    res.jsonp(status.success(200, sql_ret));
     res.end();
 });
 module.exports = router;   /*暴露这个 router模块*/

@@ -9,6 +9,10 @@ export class PaymentInfo {
     @Column({type:"varchar",length: 25,nullable:true,comment:"学生学号"})
     Student_number:string;
 
+
+    @Column({type:"varchar",length: 25,nullable:true,comment:"学生身份证"})
+    Student_card:string;
+
     @Column({type:"varchar",length: 125,nullable:true,comment:"缴费方式"})
     payment_method:string;
 

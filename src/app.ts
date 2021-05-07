@@ -12,24 +12,30 @@ app.use(cookieParser());
 var path = require('path');
 //添加路由模块
 let user=require('./router/user');
-let exam=require('./router/exam');
+let examination=require('./router/examination');
 let examItemLibrary=require('./router/examItemLibrary');
 let sys_permission=require('./router/sys_permission');
 let paymentInfo=require('./router/paymentInfo');
 let receivingBank=require('./router/receivingBank');
 let beforehandApplicants=require('./router/beforehandApplicants');
+let recruitStudents=require('./router/recruitStudents');
+let schoolEnrollmentPlan=require('./router/schoolEnrollmentPlan');
+let approval=require('./router/approval');
+let file=require('./router/file');
 
+app.use('/user',user);                                        //1 用户
+app.use('/exam',examination);                                 //2 考试
+app.use('/examItemLibrary',examItemLibrary);                  //3 题库路由
+app.use('/sys_permission',sys_permission);                    //4 权限
+app.use('/paymentInfo',paymentInfo);                          //5 缴费信息
+app.use('/receivingBank',receivingBank);                      //6 收款账号
+app.use('/beforehandApplicants',beforehandApplicants);        //7 学生预报名
+app.use('/recruitStudents',recruitStudents);                  //8 函授站招生计划申请
+app.use('/schoolEnrollmentPlan',schoolEnrollmentPlan);        //9 学校招生计划发布
+app.use('/approval',approval);                                //10 审批接口
+app.use('/file',file);                                        //11 上传
 
-
-app.use('/user',user);
-app.use('/exam',exam);
-app.use('/examItemLibrary',examItemLibrary);
-app.use('/sys_permission',sys_permission);
-app.use('/paymentInfo',paymentInfo);
-app.use('/receivingBank',receivingBank);
-app.use('/beforehandApplicants',beforehandApplicants);
-
-
+//静态资源文件夹，此目录下的文件可以直接通过url获取
 app.use(express.static(path.join(__dirname, 'public')));
 
 //代码测试区域

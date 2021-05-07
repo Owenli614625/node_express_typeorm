@@ -12,9 +12,13 @@ export class Examination {
     @Column({type:"varchar",length: 50,nullable:true,comment:"所属专业"})
     majors: string ;
 
-    @Column({type:"int",nullable:true,comment:"所属学校ID"})
+    @Column({type:"int",nullable:true,comment:"学校id"})
     school_id: number ;
 
+
+    @Column({type:"varchar",length: 50,nullable:true,comment:"批次/年级"})
+    grade:string;
+    
     @Column({type:"varchar",length: 255,nullable:true,comment:"所属函授站"})
     stations: string ;
 
