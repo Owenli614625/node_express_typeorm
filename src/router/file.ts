@@ -10,7 +10,7 @@ var router = express.Router();
 var storagemy = multer.diskStorage({
     destination: function (req:any, file:any, cb:any) {
         let folderName=req.body.folder;
-        //创建一级目录
+        //创建一级目录123
         var pathstr = path.join(__dirname+'/../uploads/');
         if (fs.existsSync(pathstr)) {
         } else {
