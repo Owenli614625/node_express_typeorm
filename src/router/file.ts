@@ -2,24 +2,28 @@ var express = require('express');
 let moment = require('moment');
 var fs = require('fs');
 var express = require('express');
-var multer  = require('multer');
+var multer = require('multer');
 var path = require('path');
 var config = require('../config.js');
+import { Status } from "../base/statue";
 var router = express.Router();
-
+const status = new Status();
 var storagemy = multer.diskStorage({
-    destination: function (req:any, file:any, cb:any) {
-        let folderName=req.body.folder;
+    destination: function (req: any, file: any, cb: any) {
+        let folderName = req.body.folder;
+        if (status.verify_parameters(folderName)) {
+            folderName = "default";
+        }
         //创建一级目录123
-        var pathstr = path.join(__dirname+'/../uploads/');
+        var pathstr = path.join(__dirname + '/../uploads/');
         if (fs.existsSync(pathstr)) {
         } else {
             fs.mkdirSync(pathstr);
         }
 
         //创建二级目录
-        pathstr = path.join(__dirname+'/../uploads/'+folderName);
-        
+        pathstr = path.join(__dirname + '/../uploads/' + folderName);
+
         if (fs.existsSync(pathstr)) {
         } else {
             fs.mkdirSync(pathstr);
@@ -29,9 +33,12 @@ var storagemy = multer.diskStorage({
         // console.log("===============");
         cb(null, pathstr);
     },
-    filename: function (req:any, file:any, cb:any) {
-        let folderName=req.body.folder;
-        var pathstr = path.join(__dirname+"/../uploads/" +folderName+"/"+ moment().format('YYYYMMDD'));
+    filename: function (req: any, file: any, cb: any) {
+        let folderName = req.body.folder;
+        if (status.verify_parameters(folderName)) {
+            folderName = "default";
+        }
+        var pathstr = path.join(__dirname + "/../uploads/" + folderName + "/" + moment().format('YYYYMMDD'));
         // console.log("++++++++++++++++++++");
         // console.log(pathstr);
         // console.log("++++++++++++++++++++");
@@ -60,15 +67,18 @@ var uploadmy = multer({ storage: storagemy });
  * @returns {Error}  default - Unexpected error
  * @security JWT
  */
- router.post('/upload', uploadmy.any(), function (req:any, res:any) {
+router.post('/upload', uploadmy.any(), function (req: any, res: any) {
     // 读取上传的图片信息
-    let folderName=req.body.folder;
+    let folderName = req.body.folder;
+    if (status.verify_parameters(folderName)) {
+        folderName = "default";
+    }
     // console.log(folderName);
     // console.log(req.files);
     res.json({
         code: 200,
         message: 'true',
-        url: config.url + "/uploads/"+folderName +"/"+ req.files[0].filename,
+        url: config.url + "/uploads/" + folderName + "/" + req.files[0].filename,
         file: req.files[0].filename
     });
 
