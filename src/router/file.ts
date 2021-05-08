@@ -10,7 +10,15 @@ var router = express.Router();
 var storagemy = multer.diskStorage({
     destination: function (req:any, file:any, cb:any) {
         let folderName=req.body.folder;
-        var pathstr = path.join(__dirname+'/../uploads/'+folderName);
+        //创建一级目录
+        var pathstr = path.join(__dirname+'/../uploads/');
+        if (fs.existsSync(pathstr)) {
+        } else {
+            fs.mkdirSync(pathstr);
+        }
+
+        //创建二级目录
+        pathstr = path.join(__dirname+'/../uploads/'+folderName);
         
         if (fs.existsSync(pathstr)) {
         } else {
@@ -46,7 +54,7 @@ var uploadmy = multer({ storage: storagemy });
  * @group 文件上传接口
  * @route POST /file/upload
  * @summary 上传文件
- * @param {file} folderName.formData  用户身份唯一标识{手机号}
+ * @param {file} folderName.formData  要存放的文件夹名称{用户可以自定义}
  * @param {file} files.formData  文件
  * @returns {object} 200 - An array of user info
  * @returns {Error}  default - Unexpected error
@@ -60,7 +68,7 @@ var uploadmy = multer({ storage: storagemy });
     res.json({
         code: 200,
         message: 'true',
-        pic: config.url + "/uploads/"+folderName +"/"+ req.files[0].filename,
+        url: config.url + "/uploads/"+folderName +"/"+ req.files[0].filename,
         file: req.files[0].filename
     });
 
