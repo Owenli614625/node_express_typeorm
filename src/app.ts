@@ -36,7 +36,7 @@ app.use('/approval',approval);                                //10 审批接口
 app.use('/file',file);                                        //11 上传
 
 //静态资源文件夹，此目录下的文件可以直接通过url获取
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads',express.static(path.join(__dirname, 'uploads')));
 
 //代码测试区域
 let time=new Date();
