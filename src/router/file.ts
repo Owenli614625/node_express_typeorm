@@ -61,7 +61,7 @@ var uploadmy = multer({ storage: storagemy });
  * @group 文件上传接口
  * @route POST /file/upload
  * @summary 上传文件
- * @param {file} folderName.formData  要存放的文件夹名称{用户可以自定义}
+ * @param {string} folder.formData  要存放的文件夹名称{用户可以自定义}
  * @param {file} files.formData  文件
  * @returns {object} 200 - An array of user info
  * @returns {Error}  default - Unexpected error
@@ -70,6 +70,7 @@ var uploadmy = multer({ storage: storagemy });
 router.post('/upload', uploadmy.any(), function (req: any, res: any) {
     // 读取上传的图片信息
     let folderName = req.body.folder;
+    
     if (status.verify_parameters(folderName)) {
         folderName = "default";
     }
@@ -79,7 +80,7 @@ router.post('/upload', uploadmy.any(), function (req: any, res: any) {
         code: 200,
         message: 'true',
         url: config.url + "/uploads/" + folderName + "/" + req.files[0].filename,
-        file: req.files[0].filename
+        filePath: "/uploads/" + folderName + "/" + req.files[0].filename
     });
 
 })

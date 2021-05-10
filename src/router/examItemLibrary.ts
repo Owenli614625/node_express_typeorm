@@ -24,6 +24,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
      * @param {int} category.formData                     题类型
      * @param {string} question.formData                  题目
      * @param {string} options.formData                   选项
+     * @param {string} resources.formData                 视频图片;文件url地址[{type: ,url: },{type: ,url: }]
      * @param {string} hint.formData                      提示信息
      * @param {string} analysis.formData                  答案解析
      * @param {string} answer.formData                    答案
@@ -110,6 +111,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
      * @param {int} category.formData                     题类型
      * @param {string} question.formData                  题目
      * @param {string} options.formData                   选项
+     * @param {string} resources.formData                 视频图片;文件url地址[{type: ,url: },{type: ,url: }]
      * @param {string} hint.formData                      提示信息
      * @param {string} analysis.formData                  答案解析
      * @param {string} answer.formData                    答案

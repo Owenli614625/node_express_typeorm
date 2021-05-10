@@ -7,8 +7,8 @@ export class RecruitStudents {
     @PrimaryGeneratedColumn({comment:"招生计划id"})
     id: number;
 
-    @Column({type:"varchar",length: 50,nullable:true,comment:"批次/年级"})
-    grade:string;
+    @Column({type:"int",nullable:true,comment:"批次/年级id"})
+    gradeid:number;
 
     @Column({type:"int",nullable:true,comment:"学习形式，2-全日制，1-函授，0-业余"})
     learn_way:number;

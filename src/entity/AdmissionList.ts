@@ -1,14 +1,13 @@
 import {Entity, PrimaryGeneratedColumn, Column,Index,CreateDateColumn} from "typeorm";
 
-//预报名数据表 ；学生的年级和身份证唯一确定一条数据
+//录取名单数据表 ，由每个学校统一导入
 
 @Entity()
-export class BeforehandApplicants {
+export class AdmissionList {
 
-    @PrimaryGeneratedColumn({comment:"预报名id"})
+    @PrimaryGeneratedColumn({comment:"录取学生id"})
     id: number;
 
-    
     @Column({type:"varchar",length: 255,nullable:true,comment:"学生姓名"})
     student_name:string;
 

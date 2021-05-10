@@ -24,9 +24,10 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
      * @param {int} student_card.formData             学生身份证号
      * @param {int} gender.formData                   性别,0-男，1-女
      * @param {int} phone.formData                    手机号
-     * @param {string} grade.formData                 批次/年级
+     * @param {int} gradeid.formData                 批次/年级id
      * @param {timestamp} school_id.formData          学校id
      * @param {timestamp} major_id.formData           专业id
+     * @param {timestamp} station_id.formData         函授站id
      * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
      * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
      * @param {int} status.formData                   预报名状态 1-正常，0-已撤销
@@ -34,7 +35,7 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
 
-     router.post('/add', async (req: any, res: any) => {
+    router.post('/add', async (req: any, res: any) => {
         //权限
         try {
             let auth = await status.authority('sys:beforehandApplicants:add', req.cookies.JSESSIONID);
@@ -42,10 +43,53 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
         } catch (error) {
             console.log(error);
         }
+        //通过学生身份证号，找到学生的所有预报名信息;
+        let where = " 1=1 ";
+        if (!status.verify_parameters(req.body.student_card)) {
+            where = where + " AND student_card= '" + req.body.student_card + "'";
+        } else {
+
+            res.jsonp(status.error(400, "student_card is not null", "false"));
+            res.end();
+            return;
+        }
+
+        let find_obj: any;
+        try {
+            let sql = "SELECT * FROM beforehand_applicants WHERE " + where;
+            find_obj = await sqldb.query(sql, []);
+
+        } catch (error) {
+            find_obj = error;
+            res.jsonp(status.error(error.errno, error.sqlMessage, error.code));
+            res.end();
+            return;
+        }
+        //通过学生身份证号，找到学生的所有预报名信息;
+
+        // console.log(find_obj);
+        // console.log(find_obj.length);
+        if (find_obj.length > 0) {
+            
+            for (let i: number=0; i < find_obj.length; i++) {
+                //找到学校和年级
+                
+                if (find_obj[i].school_id == req.body.school_id && find_obj[i].grade == req.body.grade) {
+                    let sql = "SELECT * FROM teaching_station WHERE station_id=" + find_obj[i].station_id;
+                    let obj = await sqldb.query(sql, []);
+                    res.jsonp(status.error(400, "学生已经在站点 " + obj[0].station_name + " 预报名", "预报名失败"));
+                    res.end();
+                    return;
+                }
+            }
+
+
+        }
         //执行sql
+        let sql_ret: any;
         let row = new BeforehandApplicants();
         row = Object.assign({}, req.body);
-        let sql_ret;
+        row.enroll_time=new Date();
         try {
             sql_ret = await Repository.save(row);
         } catch (error) {
@@ -56,6 +100,9 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
         }
         res.jsonp(status.success(200, sql_ret));
         res.end();
+
+
+
 
     });
 
@@ -72,9 +119,9 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
 
-     router.delete('/delete', async (req: any, res: any) => {
-          //权限
-          try {
+    router.delete('/delete', async (req: any, res: any) => {
+        //权限
+        try {
             let auth = await status.authority('sys:beforehandApplicants:delete', req.cookies.JSESSIONID);
             if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
         } catch (error) {
@@ -104,28 +151,29 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
     });
 
 
-  /**
-     * 修改预报名信息
-     * @group 预报名接口
-     * @route POST /beforehandApplicants/update
-     * @summary 修改预报名信息
-     * @param {string} Cookie.header                  用户登录cookie
-     * @param {Array} id.formData                     预报名学生id
-     * @param {string} student_name.formData          学生姓名
-     * @param {int} student_card.formData             学生身份证号
-     * @param {int} gender.formData                   性别,0-男，1-女
-     * @param {int} phone.formData                    手机号
-     * @param {string} grade.formData                 批次/年级
-     * @param {timestamp} school_id.formData          学校id
-     * @param {timestamp} major_id.formData           专业id
-     * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
-     * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
-     * @param {int} status.formData                   预报名状态 1-正常，0-已撤销
-     * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
-     * @returns {error} default - {success: false,code: code,data: data,message: message}
-     */
+    /**
+       * 修改预报名信息
+       * @group 预报名接口
+       * @route POST /beforehandApplicants/update
+       * @summary 修改预报名信息
+       * @param {string} Cookie.header                  用户登录cookie
+       * @param {Array} id.formData                     预报名学生id
+       * @param {string} student_name.formData          学生姓名
+       * @param {int} student_card.formData             学生身份证号
+       * @param {int} gender.formData                   性别,0-男，1-女
+       * @param {int} phone.formData                    手机号
+       * @param {int} gradeid.formData                 批次/年级id
+       * @param {timestamp} school_id.formData          学校id
+       * @param {timestamp} station_id.formData         函授站id
+       * @param {timestamp} major_id.formData           专业id
+       * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
+       * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
+       * @param {int} status.formData                   预报名状态 1-正常，0-已撤销
+       * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
+       * @returns {error} default - {success: false,code: code,data: data,message: message}
+       */
 
-     router.post('/update', async (req: any, res: any) => {
+    router.post('/update', async (req: any, res: any) => {
         //权限
         try {
             let auth = await status.authority('sys:beforehandApplicants:update', req.cookies.JSESSIONID);
@@ -163,20 +211,21 @@ createConnection(/*beforehandApplicants*/).then(async connection => {
      * @param {int} student_card.formData             学生身份证号
      * @param {int} gender.formData                   性别,0-男，1-女
      * @param {int} phone.formData                    手机号
-     * @param {string} grade.formData                 批次/年级
+     * @param {int} gradeid.formData                 批次/年级id
      * @param {timestamp} school_id.formData          学校id
+     * @param {timestamp} station_id.formData         函授站id
      * @param {timestamp} major_id.formData           专业id
      * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
      * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
      * @param {int} status.formData                   预报名状态 1-正常，0-已撤销
-     * @param {int} page.formData                //页号 page>=1
-     * @param {int} rows.formData                //行数 rows>=0
+     * @param {int} page.formData                     //页号 page>=1
+     * @param {int} rows.formData                     //行数 rows>=0
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
 router.post('/list', async (req: any, res: any) => {
-     //权限
-     try {
+    //权限
+    try {
         let auth = await status.authority('sys:beforehandApplicants:list', req.cookies.JSESSIONID);
         if (auth.code != 200) { res.jsonp(auth); res.end(); return; }
     } catch (error) {
@@ -216,8 +265,8 @@ router.post('/list', async (req: any, res: any) => {
         where = where + " AND phone= '" + req.body.phone + "'";
     }
 
-    if (!status.verify_parameters(req.body.grade)) {
-        where = where + " AND grade= '" + req.body.grade + "'";
+    if (!status.verify_parameters(req.body.gradeid)) {
+        where = where + " AND gradeid= '" + req.body.gradeid + "'";
     }
 
     if (!status.verify_parameters(req.body.school_id)) {
@@ -231,8 +280,8 @@ router.post('/list', async (req: any, res: any) => {
 
     if (!status.verify_parameters(req.body.school_id)) {
         where = where + " AND school_id= '" + req.body.school_id + "'";
-    }else{
-        
+    } else {
+
         res.jsonp(status.error(500, "school_id is not null", "school_id"));
         res.end();
         return;

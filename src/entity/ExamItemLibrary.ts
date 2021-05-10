@@ -15,6 +15,9 @@ export class Exam_item_library {
     @Column({type:"varchar",length: 255,nullable:true,comment:"选项"})
     options: string ;   //选项
 
+    @Column({type:"varchar",length: 255,nullable:true,comment:"视频图片，文件url地址[{type: ,url: },{type: ,url: }]"})
+    resources: string ; 
+
     @Column({type:"varchar",length: 255,nullable:true,comment:"提示信息"})
     hint: string ;      //提示信息
 

@@ -22,6 +22,7 @@ let recruitStudents=require('./router/recruitStudents');
 let schoolEnrollmentPlan=require('./router/schoolEnrollmentPlan');
 let approval=require('./router/approval');
 let file=require('./router/file');
+let admissionList=require('./router/admissionList');
 
 app.use('/user',user);                                        //1 用户
 app.use('/exam',examination);                                 //2 考试
@@ -34,6 +35,7 @@ app.use('/recruitStudents',recruitStudents);                  //8 函授站招�
 app.use('/schoolEnrollmentPlan',schoolEnrollmentPlan);        //9 学校招生计划发布
 app.use('/approval',approval);                                //10 审批接口
 app.use('/file',file);                                        //11 上传
+app.use('/admissionList',admissionList);                      //12 录取名单管理接口
 
 
 //静态资源文件夹，此目录下的文件可以直接通过url获取

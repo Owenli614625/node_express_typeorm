@@ -16,8 +16,8 @@ export class Examination {
     school_id: number ;
 
 
-    @Column({type:"varchar",length: 50,nullable:true,comment:"批次/年级"})
-    grade:string;
+    @Column({type:"int",nullable:true,comment:"批次/年级id"})
+    gradeid:number;
     
     @Column({type:"varchar",length: 255,nullable:true,comment:"所属函授站"})
     stations: string ;

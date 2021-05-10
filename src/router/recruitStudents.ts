@@ -21,7 +21,7 @@ createConnection(/*recruitStudents*/).then(async connection => {
      * @summary 添加函授站招生申报计划
      * @param {string} Cookie.header                  用户登录cookie
      * @param {int} school_id.formData                学校id
-     * @param {string} grade.formData                 批次/年级
+     * @param {int} gradeid.formData                 批次/年级id
      * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
      * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
      * @param {string} subject.formData               科类
@@ -116,7 +116,7 @@ createConnection(/*recruitStudents*/).then(async connection => {
        * @param {string} Cookie.header                  用户登录cookie
        * @param {Array} id.formData                     招生计划id
        * @param {int} school_id.formData                学校id
-       * @param {string} grade.formData                 批次/年级
+       * @param {int} gradeid.formData                 批次/年级id
        * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
        * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
        * @param {string} subject.formData               科类
@@ -170,7 +170,7 @@ createConnection(/*recruitStudents*/).then(async connection => {
  * @summary 根据条件查看函授站招生申报计划
  * @param {string} Cookie.header                  用户登录cookie
  * @param {int} school_id.formData                学校id
- * @param {string} grade.formData                 批次/年级
+ * @param {int} gradeid.formData                 批次/年级id
  * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
  * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
  * @param {string} subject.formData               科类
@@ -218,8 +218,8 @@ router.post('/list', async (req: any, res: any) => {
     }
 
 
-    if (!status.verify_parameters(req.body.grade)) {
-        where = where + " AND grade= '" + req.body.grade + "'";
+    if (!status.verify_parameters(req.body.gradeid)) {
+        where = where + " AND gradeid= '" + req.body.gradeid + "'";
     }
 
     if (!status.verify_parameters(req.body.learn_way)) {
