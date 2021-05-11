@@ -64,10 +64,7 @@ createConnection(/*admissionList*/).then(async connection => {
 
     });
 
-    function myfunction(type: any) {
-
-    }
-
+    
     /**
      * 导入录取学生信息（批量导入）
      * @group 录取名单管理接口
@@ -183,7 +180,7 @@ createConnection(/*admissionList*/).then(async connection => {
     });
 
 
-    /**
+   /**
    * 修改录取学生信息
    * @group 录取名单管理接口
    * @route POST /admissionList/update

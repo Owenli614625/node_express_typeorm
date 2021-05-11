@@ -16,6 +16,11 @@ export class RecruitStudents {
     @Column({type:"int",nullable:true,comment:"学历层次，2-专升本，1-高起本，0-高起专"})
     education_level:number;
 
+    @Column({type:"varchar",length: 50,nullable:true,comment:"学制"})
+    schooling_length:string;
+
+    @Column({type:"int",nullable:true,comment:"学费:这个字段有学校端控制"})
+    tuition:number;
 
     @Column({type:"varchar",length: 50,nullable:true,comment:"科类"})
     subject: string ;

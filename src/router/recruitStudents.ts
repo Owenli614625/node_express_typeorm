@@ -24,6 +24,7 @@ createConnection(/*recruitStudents*/).then(async connection => {
      * @param {int} gradeid.formData                 批次/年级id
      * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
      * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
+     * @param {string} schooling_length.formData      学制
      * @param {string} subject.formData               科类
      * @param {int} major_id.formData                 专业id
      * @param {int} station_id.formData               函授站id
@@ -119,6 +120,7 @@ createConnection(/*recruitStudents*/).then(async connection => {
        * @param {int} gradeid.formData                 批次/年级id
        * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
        * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专
+       * @param {string} schooling_length.formData      学制
        * @param {string} subject.formData               科类
        * @param {int} major_id.formData                 专业id
        * @param {int} station_id.formData               函授站id

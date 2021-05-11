@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column,Index,CreateDateColumn} from "typeorm";
 
-//函授站申请招生计划表
+//学校总的招生计划表
 @Entity()
 export class SchoolEnrollmentPlan {
 
@@ -18,6 +18,10 @@ export class SchoolEnrollmentPlan {
 
     @Column({type:"int",nullable:true,comment:"学历层次，2-专升本，1-高起本，0-高起专"})
     education_level:number;
+
+
+    @Column({type:"varchar",length: 50,nullable:true,comment:"学制"})
+    schooling_length:string;
 
     @Column({type:"varchar",length: 50,nullable:true,comment:"科类"})
     subject: string ;

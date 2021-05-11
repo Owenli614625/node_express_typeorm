@@ -26,7 +26,6 @@ export class AdmissionList {
     @Column({type:"int",nullable:true,comment:"学校id"})
     school_id:number;
 
-
     @Column({type:"int",nullable:true,comment:"专业id"})
     major_id:number;
 
