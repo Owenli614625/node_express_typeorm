@@ -2,7 +2,7 @@
 
 var config =
 {
-    url: "http://localhost:3000",
+    url: "http://192.168.0.113:3000",
     systemname: "168教育系统",
     copyright: "",
     

@@ -44,8 +44,8 @@ app.use('/admissionList',admissionList);                                        
 app.use('/studentPhotos',studentPhotos);                                        //13 学生照片采集接口
 app.use('/transferApprovalConfig',transferApprovalConfig);                      //14 转站审批流程配置接口
 app.use('/transferRecord',transferRecord);                                      //15 学生转站记录接口
-// app.use('/xuejiChangeApprovalConfig',xuejiChangeApprovalConfig);                //16 学籍异动审批流程配置接口
-// app.use('/xueJiChangeRecord',xueJiChangeRecord);                                //17 学籍异动记录接口
+// app.use('/xuejiChangeApprovalConfig',xuejiChangeApprovalConfig);             //16 学籍异动审批流程配置接口
+// app.use('/xueJiChangeRecord',xueJiChangeRecord);                             //17 学籍异动记录接口
 
 
 //静态资源文件夹，此目录下的文件可以直接通过url获取

@@ -29,18 +29,25 @@ export class TransferRecord {
     @Column({type:"int",nullable:true,comment:"原函授站id"})
     original_station_id:number;
 
-    @Column({type:"int",nullable:true,comment:"原函授站审批状态:是否同意|说明"})
-    original_station_status:string;
+    @Column({type:"int",nullable:true,comment:"原函授站审批状态:是否同意 1:同意 0:未审批 2:不同意"})
+    original_station_status:number;
 
-    @Column({type:"varchar",length: 255,nullable:true,comment:"原函授站审批意见:是否同意|说明"})
+    @Column({type:"varchar",length: 255,nullable:true,comment:"原函授站审批意见"})
     original_station_opinion:string;
    
     @Column({type:"int",nullable:true,comment:"新函授站id"})
     new_station_id:number;
 
-    @Column({type:"varchar",length: 255,nullable:true,comment:"新函授站审批意见:是否同意|说明"})
+    @Column({type:"int",nullable:true,comment:"新函授站审批状态  1:同意 0:未审批 2:不同意"})
+    new_station_status:number;
+
+    @Column({type:"varchar",length: 255,nullable:true,comment:"新函授站审批意见"})
     new_station_opinion:string;
 
-    @Column({type:"varchar",length: 255,nullable:true,comment:"学校审批意见:是否同意|说明"})
-    school_opinion:string;
+
+    @Column({type:"int",nullable:true,comment:"学校审批状态  1:同意 0:未审批 2:不同意"})
+    school_opinion_status:number;
+
+    @Column({type:"varchar",length: 255,nullable:true,comment:"学校审批意见"})
+    school_opinion_opinion:string;
 }
