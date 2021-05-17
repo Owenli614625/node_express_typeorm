@@ -14,7 +14,7 @@ export class TransferApprovalConfig {
     @Column({type:"int",nullable:true,comment:"学校id"})
     school_id:number;
 
-    @Column({type:"int",comment:"批次/年级"})
+    @Column({type:"int",comment:"批次/年级id"})
     gradeid  :number;
 
     @Column({type:"int",comment:"是否开启转站申请;1-开启,0-不开启"})

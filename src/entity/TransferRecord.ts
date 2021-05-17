@@ -1,5 +1,3 @@
-
-
 import {Entity, PrimaryGeneratedColumn, Column,Index,CreateDateColumn} from "typeorm";
 
 ////转站记录表
@@ -13,7 +11,6 @@ export class TransferRecord {
     @PrimaryGeneratedColumn({comment:"转站记录id"})
     id: number;
 
-
     @Column({type:"int",comment:"学生id"})
     student_id: number;
 
@@ -25,6 +22,11 @@ export class TransferRecord {
 
     @Column({type:"varchar",length: 125,nullable:true,comment:"转站申请书url"})
     application_url:string;
+
+
+    @Column({type:"timestamp",nullable:true,comment:"转站申请时间"})
+    
+    application_time:Date;
 
     @Column({type:"int",nullable:true,comment:"原函授站id"})
     original_station_id:number;

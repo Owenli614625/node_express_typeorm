@@ -21,6 +21,15 @@ createConnection(/*transferApprovalConfig*/).then(async connection => {
      * @summary 添加转站审批流程
      * @param {string} Cookie.header                  用户登录cookie
      * @param {int} school_id.formData                学校id
+     * @param {int} gradeid.formData                  批次/年级id
+     * @param {int} status.formData                   是否开启转站申请;1-开启,0-不开启
+     * @param {timestamp} start_time.formData         转站申请开始时间
+     * @param {timestamp} end_time.formData           转站申请结束时间
+     * @param {int} application.formData              是否需要申请书;1-需要,0-不需要
+     * @param {int} certificate.formData              是否需要上传证书;1-需要,0-不需要
+     * @param {int} reasons.formData                  是否需要申请原因;1-需要,0-不需要
+     * @param {int} refusal_reasons.formData          是否开启拒绝理由;1-开启,0-不开启
+     * @param {int} Approval_level.formData           审批层级;1:一级审批;2:二级审批;3:三级审批
      * @param {string} Approval_process.formData      审批流配置：3|1|2 审批流配置：3|1|2 {1:原函授站;2:新函授站;3:学校}
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}
@@ -95,13 +104,23 @@ createConnection(/*transferApprovalConfig*/).then(async connection => {
     });
 
 
-    /**
+      /**
      * 添加转站审批流程
      * @group 转站审批流程配置接口
-     * @route POST /transferApprovalConfig/update
+     * @route POST /transferApprovalConfig/add
      * @summary 添加转站审批流程
      * @param {string} Cookie.header                  用户登录cookie
-     * @param {int}    ids.formData                   审批流程id
+     * @param {int}    id.formData                    审批流程id
+     * @param {int} school_id.formData                学校id
+     * @param {int} gradeid.formData                  批次/年级id
+     * @param {int} status.formData                   是否开启转站申请;1-开启,0-不开启
+     * @param {timestamp} start_time.formData         转站申请开始时间
+     * @param {timestamp} end_time.formData           转站申请结束时间
+     * @param {int} application.formData              是否需要申请书;1-需要,0-不需要
+     * @param {int} certificate.formData              是否需要上传证书;1-需要,0-不需要
+     * @param {int} reasons.formData                  是否需要申请原因;1-需要,0-不需要
+     * @param {int} refusal_reasons.formData          是否开启拒绝理由;1-开启,0-不开启
+     * @param {int} Approval_level.formData           审批层级;1:一级审批;2:二级审批;3:三级审批
      * @param {string} Approval_process.formData      审批流配置：3|1|2 审批流配置：3|1|2 {1:原函授站;2:新函授站;3:学校}
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}

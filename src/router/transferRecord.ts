@@ -37,7 +37,7 @@ createConnection(/*transferRecord*/).then(async connection => {
         let sql_ret: any;
         let row = new TransferRecord();
         row = Object.assign({}, req.body);
-
+        row.application_time=new Date(); //记录转站申请时间
         try {
             sql_ret = await Repository.save(row);
         } catch (error) {
@@ -126,6 +126,7 @@ createConnection(/*transferRecord*/).then(async connection => {
         try {
             let exam = await Repository.findOne(req.body.id);
             exam = Object.assign({}, req.body);
+            exam.application_time=new Date(); //转站记录申请修改时间
             await Repository.save(exam);
         } catch (error) {
             sql_ret = error;
