@@ -6,7 +6,7 @@ export class Exam_item_library {
     @PrimaryGeneratedColumn({comment:"题id"})
     id: number;
   
-    @Column({type:"int",nullable:true,comment:"题类型"})
+    @Column({type:"int",nullable:true,comment:"题类型id 通过字典获得id"})
     category: number ;  //题类型
 
     @Column({type:"varchar",length: 255,nullable:true,comment:"题目"})
@@ -37,6 +37,9 @@ export class Exam_item_library {
     @Column({type: "int", nullable:true,comment:"所属学校ID"})
     school_id: number ;       //所属学校ID
 
+
+    @Column({type: "int", nullable:true,comment:"创建者Id"})
+    user_id: number ;       
 
     
 }

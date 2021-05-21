@@ -28,6 +28,9 @@ let transferApprovalConfig=require('./router/transferApprovalConfig');
 let transferRecord=require('./router/transferRecord');
 let xuejiChangeApprovalConfig=require('./router/xuejiChangeApprovalConfig');
 let xueJiChangeRecord=require('./router/xueJiChangeRecord');
+let testPaper=require('./router/testPaper');
+let testQuestion=require('./router/testQuestion');
+let answerQuestionsRecord=require('./router/answerQuestionsRecord');
 
 app.use('/user',user);                                                          //1 用户
 app.use('/exam',examination);                                                   //2 考试
@@ -46,6 +49,9 @@ app.use('/transferApprovalConfig',transferApprovalConfig);                      
 app.use('/transferRecord',transferRecord);                                      //15 学生转站记录接口
 // app.use('/xuejiChangeApprovalConfig',xuejiChangeApprovalConfig);             //16 学籍异动审批流程配置接口
 // app.use('/xueJiChangeRecord',xueJiChangeRecord);                             //17 学籍异动记录接口
+app.use('/testPaper',testPaper);                                                //18 试卷接口
+app.use('/testQuestion',testQuestion);                                          //19 给试卷中添加试题接口
+app.use('/answerQuestionsRecord',answerQuestionsRecord);                        //20 记录学生试题作答结果接口
 
 
 //静态资源文件夹，此目录下的文件可以直接通过url获取

@@ -5,7 +5,7 @@ var redis = require("redis");
 
 //var client = redis.createClient('6379', '192.168.0.200');
 let  redisConnectStatus=true;
-var client = redis.createClient('6379', '127.0.0.1',{
+var client = redis.createClient('6379', '192.168.0.200',{
     retry_strategy: function (options:any) {
         if (options.error.code === 'ECONNREFUSED') {
             // End reconnecting on a specific error and flush all commands with a individual error 

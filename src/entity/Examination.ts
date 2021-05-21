@@ -27,6 +27,10 @@ export class Examination {
 
     @Column({type:"int",nullable:true,comment:"考试时长，单位分钟"})
     consuming_time: number ;
+    
+    @Column({type: "int", nullable:true,comment:"试卷id"})
+    test_paper_id: number ;
+
 
     @CreateDateColumn({type: "timestamp", nullable:true,comment:"开始时间"})
     start_time: Date ;
@@ -34,6 +38,7 @@ export class Examination {
     @CreateDateColumn({type: "timestamp", nullable:true,comment:"结束时间"})
     end_time: Date ;
 
+    
 
     @Column({type:"int",nullable:true,comment:"应该参加考试人数"})
     should_take_number: number ;

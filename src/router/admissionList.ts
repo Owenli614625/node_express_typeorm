@@ -26,7 +26,7 @@ createConnection(/*admissionList*/).then(async connection => {
      * @param {int} gender.formData                   性别,0-男，1-女
      * @param {int} phone.formData                    手机号
      * @param {int} gradeid.formData                 批次/年级id
-     * @param {timestamp} school_id.formData          学校id
+     * @param {int} school_id.formData                学校id
      * @param {timestamp} major_id.formData           专业id
      * @param {int} learn_way.formData                学习形式，2-全日制，1-函授，0-业余 
      * @param {int} education_level.formData          学历层次，2-专升本，1-高起本，0-高起专

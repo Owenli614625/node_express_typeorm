@@ -21,7 +21,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
      * @route POST /examItemLibrary/add
      * @summary 向题库中添加试题
      * @param {string} Cookie.header            用户登录cookie
-     * @param {int} category.formData                     题类型
+     * @param {int} category.formData                     题类型id 通过字典获得id
      * @param {string} question.formData                  题目
      * @param {string} options.formData                   选项
      * @param {string} resources.formData                 视频图片;文件url地址[{type: ,url: },{type: ,url: }]
@@ -30,6 +30,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
      * @param {string} answer.formData                    答案
      * @param {int} curriculum_id.formData                课程id
      * @param {int} school_id.formData                    所属学校ID
+     * @param {int} user_id.formData                      创建者Id
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
@@ -108,7 +109,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
      * @summary 通过id修改试题
      * @param {string} Cookie.header            用户登录cookie
      * @param {int} id.formData                           题id
-     * @param {int} category.formData                     题类型
+     * @param {int} category.formData                     题类型id 通过字典获得id
      * @param {string} question.formData                  题目
      * @param {string} options.formData                   选项
      * @param {string} resources.formData                 视频图片;文件url地址[{type: ,url: },{type: ,url: }]
@@ -118,6 +119,7 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
      * @param {timestamp} insert_time.formData            添加时间
      * @param {int} curriculum_id.formData                课程id
      * @param {int} school_id.formData                    所属学校ID
+     * @param {int} user_id.formData                      创建者Id
      * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
      * @returns {error} default - {success: false,code: code,data: data,message: message}
      */
@@ -160,10 +162,11 @@ createConnection(/*ExamItemLibrary*/).then(async connection => {
  * @route POST /examItemLibrary/list
  * @summary 查看试题信息
  * @param {string} Cookie.header            用户登录cookie
- * @param {int} category.formData                     题类型
+ * @param {int} category.formData                     题类型id 通过字典获得id
  * @param {string} question.formData                  题目
  * @param {int} curriculum_id.formData                课程id
  * @param {int} school_id.formData                    所属学校ID
+ * @param {int} user_id.formData                      创建者Id
  * @param {int} page.int                              *页号 page>=1
  * @param {int} rows.int                              *行数 rows>=0
  * @returns {object} 200 -  { success: true,code: code,data: data,message: "操作成功"} 
@@ -223,6 +226,11 @@ router.post('/list', async (req: any, res: any) => {
         where = where + " AND curriculum_id=" + req.body.curriculum_id;
     }
 
+
+    //user_id
+    if (!status.verify_parameters(req.body.user_id)) {
+        where = where + " AND user_id=" + req.body.user_id;
+    }
     let sql_ret: any;
     try {
         let sql = "SELECT * FROM exam_item_library WHERE " + where + " LIMIT " + rows + " OFFSET " + offset;
